@@ -1,43 +1,9 @@
-const puppeteer = require("puppeteer");
 const functions = require("firebase-functions");
 const autoCropSvg = require('svg-autocrop');
 
 const options = {
   timeoutSeconds: 30
 };
-
-let page;
-
-async function getBrowserPage() {
-  const browser = await puppeteer.launch({args:  ['--no-sandbox'] });
-  return browser.newPage();
-}
-
-exports.html2pdf = functions
-  .runWith(options)
-  .https.onRequest(async (req, res) => {
-    if (!req.originalUrl.startsWith("/?url=")) {
-      return res.status(400).send(`url query param must be provided`);
-    }
-
-    let url = req.originalUrl.substring(6);
-
-    try {
-      if (!page) {
-        page = await getBrowserPage();
-      }
-
-      await page.goto(url);
-      await page.emulateMedia("screen");
-
-      const pdfBuffer = await page.pdf({ printBackground: true });
-
-      res.set("Content-Type", "application/pdf");
-      res.status(200).send(pdfBuffer);
-    } catch (error) {
-      throw error;
-    }
-  });
 
 exports.autocrop1 = functions
   .runWith(options)
@@ -50,4 +16,26 @@ exports.autocrop1 = functions
         res.setHeader('Content-disposition', 'inline; filename="1.svg"');
         res.contentType('image/svg+xml');
         res.send(result);
+    });
+
+
+exports.autocrop = functions
+  .runWith(options)
+    .https.onRequest(async function(req, res) {
+        if (req.get('content-type') !== 'application/json' || req.method !== 'POST') {
+            res.json({success: false, error: 'We expect a POST request with application/json content-type'});
+            return;
+        }
+        if (!req.body.svg) {
+            res.json({success: false, error: 'The "svg" parameter with an svg file content should be present'});
+            return;
+        }
+        try {
+            console.info(req.body.svg);
+            const output = await autoCropSvg(req.body.svg);
+            res.json({success: true, result: output.result, skipRiskyTransformtaions: output.skipRiskyTransformations});
+        } catch (ex) {
+            res.json({success: false, error: `svg autocrop failed: ${ex.message || ex}`});
+            return;
+        }
     });
