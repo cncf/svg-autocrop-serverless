@@ -1,20 +1,8 @@
-# HTML2PDF Cloud Function
+What is this:
+A repo for a serverless (gcloud functions) api of svg-autocrop.
 
-Serverless HTML to PDF conversions using Google Cloud Functions, and Puppeteer.
-
-## Deploying
-
-```
-# 1. Install `gcloud` CLI tool: https://cloud.google.com/sdk/gcloud
-
-# 2. Authorize gcloud:
-gcloud init
-gcloud auth application-default login
-
-# 3. Deploy!
-./deploy.sh
-
-#4 Consume:
-
-The gloud tool will return URL of cloud function. Invoke by it appending to it `?url=YOUR_URL`
-```
+Development:
+Install: npm install, at this moment a nodejs v10 is used
+Debug locally: functions-framework --target=autocrop1
+where autocrop1 is a function name from an index.js
+Deploy: gcloud functions deploy --runtime=nodejs10 --region=us-central1 --trigger-http autocrop1
