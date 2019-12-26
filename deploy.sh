@@ -1,5 +1,4 @@
-gcloud beta functions deploy html2pdf \
+gcloud functions deploy autocrop \
     --trigger-http \
-    --runtime nodejs8 \
+    --runtime nodejs10 \
     --memory 1024MB \
-    --region europe-west1

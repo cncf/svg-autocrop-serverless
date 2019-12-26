@@ -1,29 +1,26 @@
 {
-  "name": "html2pdf_cloud_function",
+  "name": "svg-autocrop-api",
   "version": "1.0.0",
-  "description": "Create a PDF file from provided URL",
+  "description": "A serverless api for an svg-autocrop module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run test"
   },
   "repository": {
     "type": "git",
-    "url": "github.com/ribice/html2pdf_cloud_function"
+    "url": "github.com/cncf/svg-autocrop-api"
   },
   "keywords": [
     "cloud",
-    "gcf",
-    "pdf",
-    "cloud_function"
+    "svg autocrop api"
   ],
-  "author": "Emir Ribic",
+  "author": "CNCF",
   "license": "MIT",
   "dependencies": {
     "@google-cloud/functions-framework": "^1.3.2",
     "firebase-admin": "^8.2.0",
     "firebase-functions": "^3.1.0",
     "iltorb": "^2.4.3",
-    "puppeteer": "^2.0.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.5",
     "svg-autocrop": "^2.0.6"
