@@ -24,6 +24,8 @@
     "firebase-functions": "^3.1.0",
     "iltorb": "^2.4.3",
     "puppeteer": "^2.0.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.5",
     "svg-autocrop": "^2.0.6"
   }
 }
