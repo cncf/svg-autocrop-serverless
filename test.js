@@ -6,7 +6,7 @@ async function main() {
         console.info(`URL not set, using ${baseUrl}. you can use URL=remote npm run test to check on a cloud`);
     }
     if (baseUrl === 'remote') {
-        baseUrl = ``;
+        baseUrl = `https://us-central1-cncf-svg-autocrop.cloudfunctions.net/autocrop`;
         console.info(`Testing remote URL: ${baseUrl}`);
     }
 
@@ -23,6 +23,8 @@ async function main() {
         })) {
             console.info(`Wrong response for an incorrect request`, response1);
             process.exit(1);
+        } else {
+            console.info('Get request ok');
         }
     }
 
@@ -41,15 +43,17 @@ async function main() {
         })) {
             console.info(`Wrong response for an incorrect request`, response2);
             process.exit(1);
+        } else {
+            console.info('Empty svg input ok');
         }
     }
 
     {
-        const input = require('fs').readFileSync(`node_modules/svg-autocrop/fixtures/agile-stacks.input.svg`, 'utf-8');
-        const output = require('fs').readFileSync(`node_modules/svg-autocrop/fixtures/agile-stacks.output.svg`, 'utf-8');
+        const input = require('fs').readFileSync(`node_modules/svg-autocrop/fixtures/f5.input.svg`, 'utf-8');
+        const output = require('fs').readFileSync(`node_modules/svg-autocrop/fixtures/f5.output.svg`, 'utf-8');
         const response3 = await rp({
             method: 'POST',
-            body: {"svg": input},
+            body: {"svg": input, title: "f5.input.svg logo"},
             uri: baseUrl,
             json: true
         });
@@ -61,6 +65,8 @@ async function main() {
         })) {
             console.info(`Wrong response for an proper request`, '\n', response3.result, '\n', output);
             process.exit(1);
+        } else {
+            console.info('F5 logo test ok');
         }
 
     }

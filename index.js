@@ -17,7 +17,7 @@ exports.autocrop = functions
             return;
         }
         try {
-            const output = await autoCropSvg(req.body.svg);
+            const output = await autoCropSvg(req.body.svg, {title: req.body.title});
             res.json({success: true, result: output.result, skipRiskyTransformations: output.skipRiskyTransformations});
         } catch (ex) {
             res.json({success: false, error: `svg autocrop failed: ${ex.message || ex}`});
