@@ -83,7 +83,8 @@
     fileReader.onload = function(fileLoadedEvent){
       var textFromFileLoaded = fileLoadedEvent.target.result;
       showOriginal(textFromFileLoaded);
-      fetch(window.location.href, {
+      const isLocalhost= window.location.hostname === 'localhost';
+      fetch(isLocalhost ? '/' : '/autocrop', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -1,2 +1,2 @@
 mkdir -p dist/
-cp index.html dist/index.html
+cp _redirects index.html dist/
