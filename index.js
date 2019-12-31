@@ -26,6 +26,10 @@ const options = {
 exports.autocrop = functions
   .runWith(options)
     .https.onRequest(async function(req, res) {
+        if (req.method === 'GET') {
+            res.end(require('fs').readFileSync('index.html', 'utf-8'));
+            return;
+        }
         if (req.get('content-type') !== 'application/json' || req.method !== 'POST') {
             res.json({success: false, error: 'We expect a POST request with application/json content-type'});
             return;

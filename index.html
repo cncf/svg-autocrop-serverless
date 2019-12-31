@@ -1,0 +1,126 @@
+<head>
+    <style>
+    html {
+        margin:    0 auto;
+        max-width: 900px;
+    }
+    img {
+      vertical-align: middle;
+      max-width: 100%;
+      background: #ccc;
+    }
+  #title-wrapper {
+    margin: 5px 0px;
+  }
+  #title-wrapper > input {
+    padding-left: 5px;
+    padding-top: 5px;
+    width: calc(100% - 222px);
+  }
+  #title-wrapper > label {
+    padding-right: 5px;
+    padding-top: 5px;
+    width: 200px;
+  }
+  #info {
+    position: relative;
+    height: 400px;
+  }
+  #input {
+    position: absolute;
+    border: 3px solid black;
+    border-radius: 3px;
+    width: calc(50% - 20px);
+    height: 400px;
+    left: 0;
+    top: 0;
+  }
+  #output
+  {
+    position: absolute;
+    border: 3px solid black;
+    border-radius: 3px;
+    display: inline-block;
+    width: calc(50% - 20px);
+    height: 400px;
+    left: calc(50% + 20px);
+    top: 0;
+  }
+  #info h4 {position: absolute; opacity: 50%;}
+  #download {
+    font-size: 40px;
+    font-weight: bold;
+    padding: 40px;
+    border-radius: 5px;
+    border: 1px solid green;
+    background: lightgreen;
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+  }
+
+    </style>
+</head>
+<h1>SVG Autocrop</h1>
+<div id="title-wrapper"><label> Step 1: Optionally choose a title</label><input id="title"></input></div>
+<div><span> Step 2: </span><input type="file" id="upload"></input><br/>
+<br/>
+<div id="info">
+  <div id="input"><h4>Original file</h4><img /></div>
+  <div id="output"><h4>After autocrop</h4><img /></div>
+</div>
+<input id="download" type="button" value="Download"></input>
+<script>
+
+  const upload = document.querySelector("#upload");
+  const input = document.querySelector("#input");
+  const output = document.querySelector("#output");
+  const download = document.querySelector('#download');
+
+  function read() {
+    var fileToLoad = upload.files[0];
+    var fileReader = new FileReader();
+    fileReader.onload = function(fileLoadedEvent){
+      var textFromFileLoaded = fileLoadedEvent.target.result;
+      showOriginal(textFromFileLoaded);
+      fetch(window.location.href, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          svg: textFromFileLoaded
+        })
+      }).then(function(response) {
+        return response.json();
+      }).then(function(result) {
+        showResult(result);
+      });
+    };
+    fileReader.readAsText(fileToLoad, "UTF-8");
+  }
+
+  function showOriginal(svg) {
+    input.children[1].src = "data:image/svg+xml;base64," + btoa(svg);
+  }
+
+  function showResult(result) {
+    output.children[1].src = "data:image/svg+xml;base64," + btoa(result.result);
+    output.src = result.result;
+  }
+
+  upload.addEventListener('change', function() {
+    read();
+  }, false);
+
+  download.addEventListener('click', function() {
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = output.children[1].src;
+    a.download = upload.files[0].name;
+    document.body.appendChild(a);
+    a.click();
+  }, false);
+
+
+</script>
