@@ -59,23 +59,37 @@
     text-align: center;
   }
 
+  #progress {
+    background: lightgreen;
+    padding: 10px;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    width: calc(100% - 40px);
+    text-align: center;
+  }
+
     </style>
 </head>
 <h1>SVG Autocrop</h1>
 <div id="title-wrapper"><label> Step 1: Optionally choose a title</label><input id="title"></input></div>
-<div><span> Step 2: </span><input type="file" id="upload"></input><br/>
+<div><span> Step 2: </span><input type="file" accept="image/svg+xml" id="upload"></input><br/>
 <br/>
 <div id="info">
   <div id="input"><h4>Original file</h4><img /></div>
-  <div id="output"><h4>After autocrop</h4><img /></div>
+  <div id="output"><h4>After autocrop</h4><img /><div id="progress">Work in progress. Please wait ...</div></div>
 </div>
 <input id="download" type="button" value="Download"></input>
 <script>
 
   const upload = document.querySelector("#upload");
   const input = document.querySelector("#input");
+  const inputImg = document.querySelector('#input img');
   const output = document.querySelector("#output");
+  const outputImg = document.querySelector('#output img');
   const download = document.querySelector('#download');
+  const progress = document.querySelector('#progress');
 
   function read() {
     var fileToLoad = upload.files[0];
@@ -102,26 +116,38 @@
   }
 
   function showOriginal(svg) {
-    input.children[1].src = "data:image/svg+xml;base64," + btoa(svg);
+    try {
+      inputImg.src = "data:image/svg+xml;base64," + btoa(svg);
+    } catch(ex) {
+      inputImg.src = 'bad';
+    }
   }
 
   function showResult(result) {
-    output.children[1].src = "data:image/svg+xml;base64," + btoa(result.result);
+    outputImg.src = "data:image/svg+xml;base64," + btoa(result.result);
     output.src = result.result;
+    download.style.display = '';
+    progress.style.display = 'none';
   }
 
   upload.addEventListener('change', function() {
     read();
+    outputImg.src = '';
+    download.style.display = 'none';
+    progress.style.display = '';
   }, false);
 
   download.addEventListener('click', function() {
     const a = document.createElement('a');
     a.style.display = 'none';
-    a.href = output.children[1].src;
+    a.href = outputImg.src;
     a.download = upload.files[0].name;
     document.body.appendChild(a);
     a.click();
   }, false);
+
+  download.style.display = 'none';
+  progress.style.display = 'none';
 
 
 </script>
