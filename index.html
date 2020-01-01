@@ -74,7 +74,7 @@
 </head>
 <h1>SVG Autocrop</h1>
 <div id="title-wrapper"><label> Step 1: Optionally choose a title</label><input id="title"></input></div>
-<div><span> Step 2: </span><input type="file" accept="image/svg+xml" id="upload"></input><br/>
+<div><span> Step 2: Drag and Drop file here or </span><input type="file" accept="image/svg+xml" id="upload"></input><br/>
 <br/>
 <div id="info">
   <div id="input"><h4>Original file</h4><img /></div>
@@ -130,11 +130,15 @@
     progress.style.display = 'none';
   }
 
-  upload.addEventListener('change', function() {
+  function uploadChanged() {
     read();
     outputImg.src = '';
     download.style.display = 'none';
     progress.style.display = '';
+  }
+
+  upload.addEventListener('change', function() {
+    uploadChanged();
   }, false);
 
   download.addEventListener('click', function() {
@@ -148,6 +152,27 @@
 
   download.style.display = 'none';
   progress.style.display = 'none';
+
+  // DRAG AND DROP
+
+  let dropArea = document.querySelector('body');
+
+  dropArea.addEventListener('dragenter', handlerFunction, false);
+  dropArea.addEventListener('dragleave', handlerFunction, false);
+  dropArea.addEventListener('dragover', handlerFunction, false);
+  dropArea.addEventListener('drop', handlerFunction, false);
+
+  function handlerFunction(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    let dt = e.dataTransfer;
+    let files = dt.files;
+    const file = files[0];
+    if (file) {
+      upload.files = dt.files;
+      uploadChanged();
+    }
+  }
 
 
 </script>
