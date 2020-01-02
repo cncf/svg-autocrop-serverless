@@ -4,10 +4,13 @@
         margin:    0 auto;
         max-width: 900px;
     }
+
     img {
-      vertical-align: middle;
+      position: absolute;
+      transform: translateY(-50%);
+      top: 50%;
       max-width: 100%;
-      background: #ccc;
+      background: #fff;
     }
   #title-wrapper {
     margin: 5px 0px;
@@ -27,6 +30,7 @@
     height: 400px;
   }
   #input {
+    background: #ccc;
     position: absolute;
     border: 3px solid black;
     border-radius: 3px;
@@ -37,6 +41,7 @@
   }
   #output
   {
+    background: #ccc;
     position: absolute;
     border: 3px solid black;
     border-radius: 3px;
@@ -46,7 +51,7 @@
     left: calc(50% + 20px);
     top: 0;
   }
-  #info h4 {position: absolute; opacity: 50%;}
+  #info h4 {position: absolute; top: -45px; }
   #download {
     font-size: 40px;
     font-weight: bold;
@@ -70,6 +75,14 @@
     text-align: center;
   }
 
+  #error {
+    color: red;
+    font-weight: 16px;
+    width: 100%;
+    padding: 10px;
+    margin: 10px;
+  }
+
     </style>
 </head>
 <h1>SVG Autocrop</h1>
@@ -81,6 +94,7 @@
   <div id="output"><h4>After autocrop</h4><img /><div id="progress">Work in progress. Please wait ...</div></div>
 </div>
 <input id="download" type="button" value="Download"></input>
+<div id="error"></div>
 <script>
 
   const upload = document.querySelector("#upload");
@@ -90,6 +104,7 @@
   const outputImg = document.querySelector('#output img');
   const download = document.querySelector('#download');
   const progress = document.querySelector('#progress');
+  const error = document.querySelector('#error');
 
   function read() {
     var fileToLoad = upload.files[0];
@@ -124,10 +139,19 @@
   }
 
   function showResult(result) {
-    outputImg.src = "data:image/svg+xml;base64," + btoa(result.result);
-    output.src = result.result;
-    download.style.display = '';
-    progress.style.display = 'none';
+    if (result.error) {
+      download.style.display = 'none';
+      progress.style.display = 'none';
+      outputImg.src = '';
+      error.style.display = '';
+      error.innerText = result.error;
+    } else {
+      outputImg.src = "data:image/svg+xml;base64," + btoa(result.result);
+      output.src = result.result;
+      download.style.display = '';
+      progress.style.display = 'none';
+      error.style.display = 'none';
+    }
   }
 
   function uploadChanged() {
@@ -135,6 +159,7 @@
     outputImg.src = '';
     download.style.display = 'none';
     progress.style.display = '';
+    error.style.display = 'none';
   }
 
   upload.addEventListener('change', function() {
@@ -152,6 +177,7 @@
 
   download.style.display = 'none';
   progress.style.display = 'none';
+  error.style.display = 'none';
 
   // DRAG AND DROP
 
