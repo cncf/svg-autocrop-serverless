@@ -7,7 +7,7 @@
         max-width: 900px;
     }
 
-    img {
+    #info img {
       position: absolute;
       transform: translateY(-50%);
       top: 50%;
@@ -86,6 +86,10 @@
     margin: 10px;
   }
 
+  #notice {
+    text-align: center;
+  }
+
     </style>
 </head>
 <h1>SVG Autocrop</h1>
@@ -98,6 +102,10 @@
 </div>
 <input id="download" type="button" value="Download"></input>
 <div id="error"></div>
+<div id="notice">The website code is hosted on <a href="
+https://github.com/cncf/svg-autocrop-serverless/">github</a> and uses <a href="https://github.com/cncf/svg-autocrop">svg-autocrop</a> behind the scene.
+</div>
+<img src="https://landscape.cncf.io/images/right-logo.svg">
 <script>
 
   const upload = document.querySelector("#upload");
@@ -143,7 +151,7 @@
 
   function showResult(result) {
     if (result.error) {
-      download.style.display = 'none';
+      download.style.visibility = 'hidden';
       progress.style.display = 'none';
       outputImg.src = '';
       error.style.display = '';
@@ -151,7 +159,7 @@
     } else {
       outputImg.src = "data:image/svg+xml;base64," + btoa(result.result);
       output.src = result.result;
-      download.style.display = '';
+      download.style.visibility = '';
       progress.style.display = 'none';
       error.style.display = 'none';
     }
@@ -160,7 +168,7 @@
   function uploadChanged() {
     read();
     outputImg.src = '';
-    download.style.display = 'none';
+    download.style.visibility = 'hidden';
     progress.style.display = '';
     error.style.display = 'none';
   }
@@ -178,7 +186,7 @@
     a.click();
   }, false);
 
-  download.style.display = 'none';
+  download.style.visibility = 'hidden';
   progress.style.display = 'none';
   error.style.display = 'none';
 
