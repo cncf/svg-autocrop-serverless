@@ -90,7 +90,7 @@
 </head>
 <h1>SVG Autocrop</h1>
 <div id="title-wrapper"><label> Step 1: Optionally choose a title</label><input id="title"></input></div>
-<div><span> Step 2: Drag and Drop file here or </span><input type="file" accept="image/svg+xml" id="upload"></input><br/>
+<div><span> Step 2: Drag and Drop file below or </span><input type="file" accept="image/svg+xml" id="upload"></input><br/>
 <br/>
 <div id="info">
   <div id="input"><h4>Original file</h4><img /></div>
@@ -184,18 +184,18 @@
 
   // DRAG AND DROP
 
-  let dropArea = document.querySelector('html');
-  let body = document.querySelector('body');
+  let dropArea = document.querySelector('#input');
+  let highlightZone = dropArea;
 
   dropArea.addEventListener('dragenter', handlerFunction, false);
   dropArea.addEventListener('dragleave', handlerFunction, false);
   dropArea.addEventListener('dragover', handlerFunction, false);
   dropArea.addEventListener('drop', handlerFunction, false);
 
-  dropArea.addEventListener('dragenter', function() { body.style.outline = "3px solid green" }, false);
-  dropArea.addEventListener('dragover', function() { body.style.outline = "3px solid green" }, false);
-  dropArea.addEventListener('drop', function() { body.style.outline = "" }, false);
-  dropArea.addEventListener('dragleave', function() { body.style.outline = "" }, false);
+  dropArea.addEventListener('dragenter', function() { highlightZone.style.border = "3px solid green" }, false);
+  dropArea.addEventListener('dragover', function() { highlightZone.style.border = "3px solid green" }, false);
+  dropArea.addEventListener('drop', function() { highlightZone.style.border = "3px solid black" }, false);
+  dropArea.addEventListener('dragleave', function() { highlightZone.style.border = "3px solid black" }, false);
 
   function handlerFunction(e) {
     e.preventDefault()
