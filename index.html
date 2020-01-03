@@ -1,7 +1,8 @@
 <head>
     <style>
-    html {
-        margin:    0 auto;
+    body {
+        margin:    5 auto;
+        padding: 10px;
         max-width: 900px;
     }
 
@@ -182,12 +183,18 @@
 
   // DRAG AND DROP
 
-  let dropArea = document.querySelector('body');
+  let dropArea = document.querySelector('html');
+  let body = document.querySelector('body');
 
   dropArea.addEventListener('dragenter', handlerFunction, false);
   dropArea.addEventListener('dragleave', handlerFunction, false);
   dropArea.addEventListener('dragover', handlerFunction, false);
   dropArea.addEventListener('drop', handlerFunction, false);
+
+  dropArea.addEventListener('dragenter', function() { body.style.outline = "3px solid green" }, false);
+  dropArea.addEventListener('dragover', function() { body.style.outline = "3px solid green" }, false);
+  dropArea.addEventListener('drop', function() { body.style.outline = "" }, false);
+  dropArea.addEventListener('dragleave', function() { body.style.outline = "" }, false);
 
   function handlerFunction(e) {
     e.preventDefault()
