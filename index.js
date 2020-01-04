@@ -42,7 +42,7 @@ exports.autocrop = functions
                     url: req.body.url
                 });
             } catch(ex) {
-                res.json({ success: false, error: `failed to fetch an svg from ${url}`});
+                res.json({ success: false, error: `failed to fetch an svg from ${req.body.url}`});
                 return;
             }
         } else {
