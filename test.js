@@ -17,11 +17,8 @@ async function main() {
             json: true
         });
 
-        if (JSON.stringify(response1) !== JSON.stringify({
-            success: false,
-            error:  'We expect a POST request with application/json content-type'
-        })) {
-            console.info(`Wrong response for an incorrect request`, response1);
+        if (response1 !== require('fs').readFileSync('./index.html', 'utf-8')) {
+            console.info(`An index.html should be returned on GET request`, response1);
             process.exit(1);
         } else {
             console.info('Get request ok');
@@ -67,6 +64,29 @@ async function main() {
             process.exit(1);
         } else {
             console.info('F5 logo test ok');
+        }
+
+    }
+
+    {
+        const input = 'https://raw.githubusercontent.com/cncf/svg-autocrop/master/fixtures/agile-stacks.input.svg';
+        const output = require('fs').readFileSync(`node_modules/svg-autocrop/fixtures/agile-stacks.output.svg`, 'utf-8');
+        const response4 = await rp({
+            method: 'POST',
+            body: {"url": input, title: "agile-stacks.input.svg logo"},
+            uri: baseUrl,
+            json: true
+        });
+
+        if (JSON.stringify(response4) !== JSON.stringify({
+            success: true,
+            result: output,
+            skipRiskyTransformations: false
+        })) {
+            console.info(`Wrong response for a proper request with url`, '\n', response4.result, '\n', output);
+            process.exit(1);
+        } else {
+            console.info('url fetching on agile-stacks logo ok');
         }
 
     }
