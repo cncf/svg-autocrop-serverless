@@ -94,7 +94,7 @@
 </head>
 <h1>SVG Autocrop</h1>
 <div id="title-wrapper"><label> Step 1: Optionally choose a title</label><input id="title"></input></div>
-<div><span> Step 2: Drag and Drop file below or </span><input type="file" accept="image/svg+xml" id="upload"></input><br/>
+<div><span> Step 2: Drag and Drop file below or </span><input type="file" accept="image/svg+xml" id="upload"></input> or <input id="url" type="button" value="Enter URL" /><br/>
 <br/>
 <div id="info">
   <div id="input"><h4>Original file</h4><img /></div>
@@ -116,6 +116,9 @@ https://github.com/cncf/svg-autocrop-serverless/">github</a> and uses <a href="h
   const download = document.querySelector('#download');
   const progress = document.querySelector('#progress');
   const error = document.querySelector('#error');
+  const selectUrl = document.querySelector('#url');
+
+
 
   function read() {
     var fileToLoad = upload.files[0];
@@ -175,6 +178,32 @@ https://github.com/cncf/svg-autocrop-serverless/">github</a> and uses <a href="h
 
   upload.addEventListener('change', function() {
     uploadChanged();
+  }, false);
+
+  selectUrl.addEventListener('click', function() {
+    const url = prompt('Please specify the svg url');
+    if (!url) {
+      return;
+    }
+    const isLocalhost= window.location.hostname === 'localhost';
+    fetch(isLocalhost ? '/' : '/autocrop', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        url: url
+      })
+    }).then(function(response) {
+      return response.json();
+    }).then(function(result) {
+      showResult(result);
+    });
+    inputImg.src = url;
+    outputImg.src = '';
+    download.style.visibility = 'hidden';
+    progress.style.display = '';
+    error.style.display = 'none';
   }, false);
 
   download.addEventListener('click', function() {
