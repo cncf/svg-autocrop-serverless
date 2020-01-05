@@ -21,6 +21,6 @@ Deploy: gcloud functions deploy --runtime=nodejs10 --region=us-central1 --trigge
         }); 
         console.info(response);
 ```
-output: `{ success : true, result: '<svg ...' }` OR `{ success : false, error: '...' }`
+output: `{ success : true, result: '<svg ...', stats: { originalSize: 1000, transformedSize: 500 }}` OR `{ success : false, error: '...' }`
 
 
