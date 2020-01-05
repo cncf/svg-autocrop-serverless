@@ -118,6 +118,21 @@ Uses aggressive settings of svgo to remove a large amount of useless or redundan
 https://github.com/cncf/svg-autocrop-serverless/">github</a> and uses <a href="https://github.com/cncf/svg-autocrop">svg-autocrop</a> behind the scene.
 </div>
 <div style="text-align: center"><img style="width:200px;" src="https://landscape.cncf.io/images/right-logo.svg"></div>
+<div id="api-usage">
+  <h4> Example API Usage
+  <pre>
+        const baseUrl = 'https://us-central1-cncf-svg-autocrop.cloudfunctions.net/autocrop';
+        const rp = require('request-promise');
+        const input = require('fs').readFileSync(`node_modules/svg-autocrop/fixtures/f5.input.svg`, 'utf-8');
+        const response = await rp({
+            method: 'POST',
+            body: {"svg": input, title: "new title"},
+            uri: baseUrl,
+            json: true
+        });
+        console.info(response);
+  </pre>
+</div>
 <script>
 
   const upload = document.querySelector("#upload");
