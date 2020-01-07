@@ -16,6 +16,11 @@
       max-height: 100%;
       background: #fff;
     }
+
+    h1
+    {
+      margin-bottom: 5px;
+    }
   #title-wrapper {
     margin: 5px 0px;
   }
@@ -102,6 +107,7 @@
     </style>
 </head>
 <h1>SVG Autocrop</h1>
+<a style="font-size: 12px; "href="#description">See description and api usage below</a>
 <div id="title-wrapper"><label> Step 1: Optionally choose a title</label><input id="title"></input></div>
 <div><span> Step 2: Drag and Drop file below or </span><input type="file" accept="image/svg+xml" id="upload"></input> or <input id="url" type="button" value="Enter URL" /><br/>
 <br/>
@@ -115,6 +121,7 @@
 https://github.com/cncf/svg-autocrop-serverless/">github</a> and uses <a href="https://github.com/cncf/svg-autocrop">svg-autocrop</a> behind the scene.
 </div>
 <div style="text-align: center"><img style="width:200px;" src="https://landscape.cncf.io/images/right-logo.svg"></div>
+<a name="description"></a>
 <h4>What is SVG Autorop?</h4>
 <ul id="description">
   <li>Autocrops by temporarily converting to a bitmap and scanning to find the bounding rectangle of non-transparent pixels
@@ -125,7 +132,7 @@ Uses aggressive settings of svgo to remove a large amount of useless or redundan
   <li>Fails with an error on SVGs that contain a text or tspan element since the text will not render reliably if the specified fonts are not installed (instead, you can convert the text to an image so that it will reliably render anywhere)</li>
   <li>Optionally adds a title since that is displayed as the title in the browser tab</li>
 </ul>
-<div id="api-usage">
+<a name="api"></a>
   <h4> Example API Usage
   <pre>
         const baseUrl = 'https://us-central1-cncf-svg-autocrop.cloudfunctions.net/autocrop';
