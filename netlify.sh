@@ -5,7 +5,7 @@ npm start &
 PID=$!
 echo $PID
 sleep 10
-curl http://localhost:8080
+curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST localhost:8080
 echo STARTING A TEST
 (node test.js && echo "test finished" && pkill -9 autocrop)  || (echo "test failed" && pkill -9 autocrop && exit 1)
 
