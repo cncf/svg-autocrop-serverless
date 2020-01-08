@@ -54,8 +54,9 @@ exports.autocrop = functions
         }
         try {
             const output = await autoCropSvg(svg , {title: req.body.title});
-            const originalSize = (new TextEncoder().encode(svg)).length;
-            const transformedSize = (new TextEncoder().encode(output.result)).length;
+            const getLength = (s) => Buffer.byteLength(s, 'utf8');
+            const originalSize = getLength(svg);
+            const transformedSize = getLength(output.result);
             res.json({success: true, result: output.result, skipRiskyTransformations: output.skipRiskyTransformations, stats: { originalSize, transformedSize }});
         } catch (ex) {
             res.json({success: false, error: `svg autocrop failed: ${ex.message || ex}`});
