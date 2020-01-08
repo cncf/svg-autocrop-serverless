@@ -108,4 +108,7 @@ async function main() {
 
 
 }
-main();
+main().catch( function(ex) {
+  console.info(ex.message);
+  process.exit(1);
+});
