@@ -117,19 +117,18 @@
 </div>
 <input id="download" type="button" value="Download"></input>
 <div id="error"></div>
-<div id="notice">The website code is hosted on <a href="
-https://github.com/cncf/svg-autocrop-serverless/">github</a> and uses <a href="https://github.com/cncf/svg-autocrop">svg-autocrop</a> behind the scene.
+<div id="notice">This autocrop website <a href="https://github.com/cncf/svg-autocrop-serverless/">code</a> is open source and provides a friendly front end to <a href="https://github.com/cncf/svg-autocrop">svg-autocrop</a>.
 </div>
 <div style="text-align: center"><img style="width:200px;" src="https://landscape.cncf.io/images/right-logo.svg"></div>
 <a name="description"></a>
 <h4>What is SVG Autorop?</h4>
 <ul id="description">
-  <li>Autocrops by temporarily converting to a bitmap and scanning to find the bounding rectangle of non-transparent pixels
-Adds a viewbox so that the SVG will not be distorted if placed in a rectangle with a different ratio
-Uses aggressive settings of svgo to remove a large amount of useless or redundant information and runs 5 times to eliminate pointless nested groups</li>
+  <li>Autocrops to remove excess space around a logo while adding a one pixel border. It does this by temporarily converting to a bitmap and scanning to find the bounding rectangle of non-transparent pixels</li>
+  <li>Adds a viewbox so that the SVG will not be distorted if placed in a rectangle with a different ratio</li>
+  <li>Uses aggressive settings of <a href="https://github.com/svg/svgo">svgo</a> to remove a large amount of useless or redundant information and runs 5 times to eliminate pointless nested groups</li>
   <li>Standardizes the SVG header to the minimum necessary to reliably render</li>
   <li>Fails with an error if the SVG includes a raster image (such as a PNG or JPEG), as these do not scale seamlessly and needlessly add to the file size </li>
-  <li>Fails with an error on SVGs that contain a text or tspan element since the text will not render reliably if the specified fonts are not installed (instead, you can convert the text to an image so that it will reliably render anywhere)</li>
+  <li>Fails with an error on SVGs that contain a text or tspan element since the text will not render reliably if the specified fonts are not installed (instead, you can <a href="https://github.com/cncf/landscapeapp#svgs-cant-include-text">convert</a> the text to an image so that it will reliably render anywhere)</li>
   <li>Optionally adds a title since that is displayed as the title in the browser tab</li>
 </ul>
 <a name="api"></a>
