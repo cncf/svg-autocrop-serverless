@@ -4,6 +4,7 @@ curl https://landscape.cncf.io/favicon.ico > dist/favicon.ico
 echo TESTING API
 npm start &
 PID=$!
+sleep 10
 (node test.js && kill $PID)  || (echo "test failed" && kill $PID && exit 1)
 
 echo DEPLOYING TO GOOGLE CLOUD
