@@ -6,7 +6,7 @@ PID=$!
 echo $PID
 sleep 10
 echo STARTING A TEST
-(node test.js && echo "test finished" && kill $PID)  || (echo "test failed" && kill $PID && exit 1)
+(node test.js && echo "test finished" && kill -9 $PID)  || (echo "test failed" && kill -9 $PID && exit 1)
 
 echo DEPLOYING STATIC PAGE
 
