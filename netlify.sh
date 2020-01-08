@@ -1,6 +1,10 @@
 mkdir -p dist/
 cp _redirects index.html dist/
 curl https://landscape.cncf.io/favicon.ico > dist/favicon.ico
+echo TESTING API
+npm start &
+(node test.js && kill $(jobs -p) )  || (kill $(jobs -p) && exit 1)
+
 echo DEPLOYING TO GOOGLE CLOUD
 
 echo $BASE64GOOGLETOKEN | base64 -d > /tmp/key.json
