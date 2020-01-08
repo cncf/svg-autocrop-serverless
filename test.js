@@ -58,9 +58,13 @@ async function main() {
         if (JSON.stringify(response3) !== JSON.stringify({
             success: true,
             result: output,
-            skipRiskyTransformations: false
+            skipRiskyTransformations: false,
+            stats: {
+                originalSize: input.length,
+                transformedSize: output.length
+            },
         })) {
-            console.info(`Wrong response for an proper request`, '\n', response3.result, '\n', output);
+            console.info(`Wrong response for an proper request`, '\n', response3, '\n', output);
             process.exit(1);
         } else {
             console.info('F5 logo test ok');
@@ -70,6 +74,9 @@ async function main() {
 
     {
         const input = 'https://raw.githubusercontent.com/cncf/svg-autocrop/master/fixtures/agile-stacks.input.svg';
+        const inputFile = await rp({
+            uri: input
+        });
         const output = require('fs').readFileSync(`node_modules/svg-autocrop/fixtures/agile-stacks.output.svg`, 'utf-8');
         const response4 = await rp({
             method: 'POST',
@@ -81,7 +88,11 @@ async function main() {
         if (JSON.stringify(response4) !== JSON.stringify({
             success: true,
             result: output,
-            skipRiskyTransformations: false
+            skipRiskyTransformations: false,
+            stats: {
+                originalSize: inputFile.length + 1,
+                transformedSize: output.length
+            }
         })) {
             console.info(`Wrong response for a proper request with url`, '\n', response4.result, '\n', output);
             process.exit(1);
