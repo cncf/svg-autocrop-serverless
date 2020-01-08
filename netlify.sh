@@ -5,6 +5,7 @@ npm start &
 PID=$!
 echo $PID
 sleep 10
+curl http://localhost:8080
 echo STARTING A TEST
 (node test.js && echo "test finished" && kill -9 $PID)  || (echo "test failed" && kill -9 $PID && exit 1)
 
