@@ -3,7 +3,8 @@ cp _redirects index.html dist/
 curl https://landscape.cncf.io/favicon.ico > dist/favicon.ico
 echo TESTING API
 npm start &
-(node test.js && kill $(jobs -p) )  || (kill $(jobs -p) && exit 1)
+PID=$!
+(node test.js && kill $PID)  || (echo "test failed" && kill $PID && exit 1)
 
 echo DEPLOYING TO GOOGLE CLOUD
 
