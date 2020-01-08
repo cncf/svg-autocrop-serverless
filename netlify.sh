@@ -7,7 +7,7 @@ echo $PID
 sleep 10
 curl http://localhost:8080
 echo STARTING A TEST
-(node test.js && echo "test finished" && kill -9 $PID)  || (echo "test failed" && kill -9 $PID && exit 1)
+(node test.js && echo "test finished" && pkill -9 autocrop)  || (echo "test failed" && pkill -9 autocrop && exit 1)
 
 echo DEPLOYING STATIC PAGE
 
