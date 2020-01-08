@@ -1,14 +1,18 @@
 set -e
-mkdir -p dist/
-cp _redirects index.html dist/
-curl https://landscape.cncf.io/favicon.ico > dist/favicon.ico
 echo TESTING API
 echo STARTING WEB SERVER
 npm start &
 PID=$!
+echo $PID
 sleep 10
 echo STARTING A TEST
-(node test.js && kill $PID)  || (echo "test failed" && kill $PID && exit 1)
+(node test.js && echo "test finished" && kill $PID)  || (echo "test failed" && kill $PID && exit 1)
+
+echo DEPLOYING STATIC PAGE
+
+mkdir -p dist/
+cp _redirects index.html dist/
+curl https://landscape.cncf.io/favicon.ico > dist/favicon.ico
 
 echo DEPLOYING TO GOOGLE CLOUD
 
