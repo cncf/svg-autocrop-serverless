@@ -90,11 +90,12 @@ async function main() {
             result: output,
             skipRiskyTransformations: false,
             stats: {
-                originalSize: inputFile.length + 1,
+                originalSize: inputFile.length,
                 transformedSize: output.length
             }
         })) {
             console.info(`Wrong response for a proper request with url`, '\n', response4.result, '\n', output);
+            console.info(response4, response4.result === output);
             process.exit(1);
         } else {
             console.info('url fetching on agile-stacks logo ok');

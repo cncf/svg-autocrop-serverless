@@ -1,5 +1,8 @@
 export g=`which gcloud || echo /tmp/google-cloud-sdk/bin/gcloud`
-$g functions deploy autocrop \
+: ${DEPLOY_NAME:=autocrop}
+echo deploying as $DEPLOY_NAME
+$g functions deploy $DEPLOY_NAME  \
+    --entry-point autocrop \
     --region=us-central1 \
     --trigger-http \
     --runtime nodejs10 \
