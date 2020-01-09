@@ -52,6 +52,7 @@ exports.autocrop = functions
             res.json({success: false, error: 'The "svg" parameter with an svg file content should be present'});
             return;
         }
+        (new TextEncoder().encode('foo')).length
         try {
             const output = await autoCropSvg(svg , {title: req.body.title});
             const getLength = (s) => Buffer.byteLength(s, 'utf8');
