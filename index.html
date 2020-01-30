@@ -165,6 +165,24 @@
   <pre>
     {"success":true,"result":"&lt;svg xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" viewBox=\"245.96 47.46 574.08 199.08\"&gt;&lt;title&gt;Alauda logo&lt;/title&gt;&lt;defs&gt;&lt;clip ...
   </pre>
+
+  <h4> Example API Usage - curl (failure - embedded text) </h4>
+    <pre>
+    curl -X POST -H "Content-Type: application/json" -d "{\"svg\": `php -r 'echo json_encode(file_get_contents("node_modules/svg-autocrop/fixtures/bad1.input.svg"));'`, \"title\": \"image logo\"}" https://autocrop.cncf.io/autocrop
+  </pre>
+  <b> Example output: </b>
+  <pre>
+    {"success":false,"error":"svg autocrop failed: SVG file has a &lt;text&gt; element. Please convert it to the glyph first, because we can not render it the same way on all computers, especially on our render server"}
+  </pre>
+
+  <h4> Example API Usage - curl (failure - svg contains an image) </h4>
+    <pre>
+    curl -X POST -H "Content-Type: application/json" -d "{\"svg\": `php -r 'echo json_encode(file_get_contents("node_modules/svg-autocrop/fixtures/badImage.input.svg"));'`, \"title\": \"image logo\"}" https://autocrop.cncf.io/autocrop
+  </pre>
+  <b> Example output: </b>
+  <pre>
+    {"success":false,"error":"svg autocrop failed: SVG file contains an image. Please use a pure svg file"}
+  </pre>
 </div>
 <script>
 
