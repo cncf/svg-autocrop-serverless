@@ -14,7 +14,7 @@ curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk
 
 echo DEPLOYING TO DIFFERENT URL AND THEN TESTING API
 DEPLOY_NAME=ci-autocrop bash deploy.sh
-URL=https://us-central1-cncf-svg-autocrop.cloudfunctions.net/ci-autocrop && npm run test 
+URL=https://us-central1-cncf-svg-autocrop.cloudfunctions.net/ci-autocrop npm run test 
 
 echo DEPLPOYING API
 bash deploy.sh
