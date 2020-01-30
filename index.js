@@ -24,6 +24,27 @@ const options = {
   timeoutSeconds: 30
 };
 
+const reportToSlack = async function({success, error}) {
+    const slackChannel = process.env.SLACK_CHANNEL;
+    if (!slackChannel) {
+        return
+    }
+    const url = `https://hooks.slack.com/services/${slackChannel}`;
+    console.info(`reporting to slack ${url}`);
+    try {
+        const result = await rp({
+            method: 'POST',
+            url: url,
+            json: {
+                text: success ? "Someone transformed an svg file. " : `Someone failed to transform an svg file! ${error}`
+            }
+        })
+        console.info(result);
+    } catch(ex) {
+        console.info("Failed to report to slack, but not a problem");
+    }
+}
+
 exports.autocrop = functions
   .runWith(options)
     .https.onRequest(async function(req, res) {
@@ -42,6 +63,7 @@ exports.autocrop = functions
                     url: req.body.url
                 });
             } catch(ex) {
+                await reportToSlack({success: false, error: `failed to fetch an svg from ${req.body.url}`});
                 res.json({ success: false, error: `failed to fetch an svg from ${req.body.url}`});
                 return;
             }
@@ -49,6 +71,7 @@ exports.autocrop = functions
             svg = req.body.svg;
         }
         if (!svg) {
+            await reportToSlack({success: false, error: `The "svg" parameter with an svg file content should be present`});
             res.json({success: false, error: 'The "svg" parameter with an svg file content should be present'});
             return;
         }
@@ -57,8 +80,10 @@ exports.autocrop = functions
             const getLength = (s) => Buffer.byteLength(s, 'utf8');
             const originalSize = getLength(svg);
             const transformedSize = getLength(output.result);
+            await reportToSlack({success: true});
             res.json({success: true, result: output.result, skipRiskyTransformations: output.skipRiskyTransformations, stats: { originalSize, transformedSize }});
         } catch (ex) {
+            await reportToSlack({success: false, error: ex.message || ex});
             res.json({success: false, error: `svg autocrop failed: ${ex.message || ex}`});
             return;
         }

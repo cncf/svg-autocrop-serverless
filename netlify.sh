@@ -17,4 +17,5 @@ DEPLOY_NAME=ci-autocrop bash deploy.sh
 URL=https://us-central1-cncf-svg-autocrop.cloudfunctions.net/ci-autocrop npm run test 
 
 echo DEPLPOYING API
+node embedSlackVariable.js
 bash deploy.sh
