@@ -27,6 +27,9 @@ output: `{ success : true, result: '<svg ...', stats: { originalSize: 1000, tran
 
 
 # Price
+We assume that an average request time is 10 seconds, we use the best virtual machine to get the result fast enough, and
+an average SVG file is 100Kb (usually it is even less).
+
 $37 per 100,000 requests per month
 ![photo](https://i.imgur.com/A43XVLY.png)
 $360 per 1,000,000 requests per month
