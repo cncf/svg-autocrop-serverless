@@ -26,3 +26,9 @@ Deploy: gcloud functions deploy --runtime=nodejs10 --region=us-central1 --trigge
 output: `{ success : true, result: '<svg ...', stats: { originalSize: 1000, transformedSize: 500 }}` OR `{ success : false, error: '...' }`
 
 
+# Price
+$37 per 100,000 requests per month
+![photo](https://i.imgur.com/A43XVLY.png)
+$360 per 1,000,000 requests per month
+![photo](https://i.imgur.com/Lss6WpU.png)
+
