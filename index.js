@@ -61,6 +61,7 @@ const reportToSlack = async function({ip, success, error}) {
 exports.autocrop = functions
   .runWith(options)
     .https.onRequest(async function(req, res) {
+        console.info(req.headers);
         var ip = (req.headers['x-forwarded-for'] || '').split(',').pop() ||
          req.connection.remoteAddress ||
          req.socket.remoteAddress ||
