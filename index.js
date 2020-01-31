@@ -24,7 +24,20 @@ const options = {
   timeoutSeconds: 30
 };
 
-const reportToSlack = async function({success, error}) {
+const getLocation = async function(ip) {
+    try {
+        console.info(ip);
+        const location = JSON.parse(await rp(`https://ipinfo.io/${ip}`));
+        console.info(location);
+        return `${location.country} / ${location.region} / ${location.city}`;
+    } catch (ex) {
+        return `Unknown location`;
+    }
+}
+
+const reportToSlack = async function({ip, success, error}) {
+    const location = await getLocation(ip);
+    console.info({location});
     const slackChannel = process.env.SLACK_CHANNEL;
     if (!slackChannel) {
         return
@@ -36,7 +49,7 @@ const reportToSlack = async function({success, error}) {
             method: 'POST',
             url: url,
             json: {
-                text: success ? "Someone transformed an svg file. " : `Someone failed to transform an svg file! ${error}`
+                text: success ? `Someone from ${location} transformed an svg file. ` : `Someone from ${location} failed to transform an svg file! ${error}`
             }
         })
         console.info(result);
@@ -48,6 +61,12 @@ const reportToSlack = async function({success, error}) {
 exports.autocrop = functions
   .runWith(options)
     .https.onRequest(async function(req, res) {
+        var ip = (req.headers['x-forwarded-for'] || '').split(',').pop() ||
+         req.connection.remoteAddress ||
+         req.socket.remoteAddress ||
+         req.connection.socket.remoteAddress
+        console.info(ip);
+
         if (req.method === 'GET') {
             res.end(require('fs').readFileSync('index.html', 'utf-8'));
             return;
@@ -63,7 +82,7 @@ exports.autocrop = functions
                     url: req.body.url
                 });
             } catch(ex) {
-                await reportToSlack({success: false, error: `failed to fetch an svg from ${req.body.url}`});
+                await reportToSlack({ip, success: false, error: `failed to fetch an svg from ${req.body.url}`});
                 res.json({ success: false, error: `failed to fetch an svg from ${req.body.url}`});
                 return;
             }
@@ -71,7 +90,7 @@ exports.autocrop = functions
             svg = req.body.svg;
         }
         if (!svg) {
-            await reportToSlack({success: false, error: `The "svg" parameter with an svg file content should be present`});
+            await reportToSlack({ip, success: false, error: `The "svg" parameter with an svg file content should be present`});
             res.json({success: false, error: 'The "svg" parameter with an svg file content should be present'});
             return;
         }
@@ -80,10 +99,10 @@ exports.autocrop = functions
             const getLength = (s) => Buffer.byteLength(s, 'utf8');
             const originalSize = getLength(svg);
             const transformedSize = getLength(output.result);
-            await reportToSlack({success: true});
+            await reportToSlack({ip, success: true});
             res.json({success: true, result: output.result, skipRiskyTransformations: output.skipRiskyTransformations, stats: { originalSize, transformedSize }});
         } catch (ex) {
-            await reportToSlack({success: false, error: ex.message || ex});
+            await reportToSlack({ip, success: false, error: ex.message || ex});
             res.json({success: false, error: `svg autocrop failed: ${ex.message || ex}`});
             return;
         }
