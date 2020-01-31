@@ -62,7 +62,8 @@ exports.autocrop = functions
   .runWith(options)
     .https.onRequest(async function(req, res) {
         console.info(req.headers);
-        var ip = (req.headers['x-forwarded-for'] || '').split(',').pop() ||
+        console.info('real: ', (req.headers['x-forwarded-for'] || '').split(', ')[0]);
+        var ip = (req.headers['x-forwarded-for'] || '').split(', ')[0] ||
          req.connection.remoteAddress ||
          req.socket.remoteAddress ||
          req.connection.socket.remoteAddress
