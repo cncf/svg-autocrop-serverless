@@ -31,6 +31,6 @@ We assume that an average request time is 10 seconds, we use the best virtual ma
 
 $32 per 100,000 requests per month
 ![photo](https://i.imgur.com/A43XVLY.png)
-$360 per 1,000,000 requests per month
+$362 per 1,000,000 requests per month
 ![photo](https://i.imgur.com/Lss6WpU.png)
 
