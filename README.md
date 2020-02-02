@@ -33,4 +33,4 @@ $32 per 100,000 requests per month:
 
 ![photo](https://i.imgur.com/A43XVLY.png)
 
-So, we can do 31 logo autocrops per penny.
+100,000 invocations divided by ($31.74 x 100 cents) is 32, so we can do 32 logo autocrops per penny.
