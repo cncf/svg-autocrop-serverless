@@ -26,3 +26,11 @@ Deploy: gcloud functions deploy --runtime=nodejs10 --region=us-central1 --trigge
 output: `{ success : true, result: '<svg ...', stats: { originalSize: 1000, transformedSize: 500 }}` OR `{ success : false, error: '...' }`
 
 
+# Price
+We assume that an average request time is 10 seconds, we use the best virtual machine to get the result fast enough thus it is 2GB RAM and 2.8GHz CPU, and an average SVG file is 100kB (usually it is even less) thus a bandwidth for a request is 0.3Mb
+
+$32 per 100,000 requests per month:
+
+![photo](https://i.imgur.com/A43XVLY.png)
+
+100,000 invocations divided by ($31.74 x 100 cents) is 32, so we can do 32 logo autocrops per penny.
