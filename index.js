@@ -96,6 +96,11 @@ exports.autocrop = functions
             res.json({success: false, error: 'The "svg" parameter with an svg file content should be present'});
             return;
         }
+        if (svg.length > 1.5 * 1024 * 1024) {
+            await reportToSlack({ip, success: false, error: `Maximum file size is 1.5 MB.`});
+            res.json({success: false, error: `Maximum file size is 1.5MB`});
+            return;
+        }
         try {
             const output = await autoCropSvg(svg , {title: req.body.title});
             const getLength = (s) => Buffer.byteLength(s, 'utf8');
