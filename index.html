@@ -191,6 +191,26 @@
   <pre>
     {"success":false,"error":"svg autocrop failed: SVG file contains an image. Please use a pure svg file"}
   </pre>
+
+  <h4> Example API Usage - curl (failure - svg size is too large) </h4>
+    <pre>
+curl -X POST -H "Content-Type: application/json" -d "{\"url\": \"https://upload.wikimedia.org/wikipedia/commons/6/63/A_large_blank_world_map_with_oceans_marked_in_blue.svg\", \"title\": \"image logo\"}" https://autocrop.cncf.io/autocrop
+
+  </pre>
+  <b> Example output: </b>
+  <pre>
+    {"success":false,"error":"Maximum file size is 1.5MB"}
+  </pre>
+
+  <h4> Example API Usage - curl (failure - service timeout) </h4>
+    <pre>
+curl -X POST -H "Content-Type: application/json" -d "{\"url\": \"https://upload.wikimedia.org/wikipedia/commons/6/63/A_large_blank_world_map_with_oceans_marked_in_blue.svg\", \"title\": \"image logo\"}" https://autocrop.cncf.io/autocrop
+
+  </pre>
+  <b> Example output: </b>
+  <pre>
+    {"success":false,"error":"Failed to autocrop within 20 seconds"}
+  </pre>
 </div>
 <p class="copyright_text">Copyright &copy; 2020 The Linux Foundation &reg;. All rights reserved. The Linux Foundation has registered trademarks and uses trademarks. For a list of trademarks of The Linux Foundation, please see our <a href="https://www.linuxfoundation.org/trademark-usage">Trademark Usage</a> page.  Linux is a registered trademark of Linus Torvalds.  <a href="http://www.linuxfoundation.org/privacy">Privacy Policy</a> and <a href="http://www.linuxfoundation.org/terms">Terms of Use</a> </p>
 <script>
