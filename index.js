@@ -1,29 +1,30 @@
 const Promise = require('bluebird');
 const rp = require('request-promise');
 const functions = require("firebase-functions");
-const puppeteer = require('svg-autocrop/node_modules/convert-svg-core/node_modules/puppeteer');
-const l = puppeteer.launch;
-puppeteer.launch = async function() {
-    if (process.env.LOCAL) {
-        console.info('Running a normal puppeteer');
-        return await l.apply(this, arguments);
-    } else {
-        console.info('Running a special version of puppeteer with chrome adapted to /tmp');
-        const chromium = require('chrome-aws-lambda');
-        const browser = await chromium.puppeteer.launch({
-            args: chromium.args,
-            defaultViewport: chromium.defaultViewport,
-            executablePath: await chromium.executablePath,
-            headless: chromium.headless,
-        });
-        return browser;
-    }
-}
-const autoCropSvg = require('svg-autocrop');
+
 
 const options = {
   timeoutSeconds: 30
 };
+
+// this allows us to run an svg autocrop in a separate process so we are not
+// blocked by long time SVGO transformations and can return a timeout exactly at 20s
+function runInProcess(options) {
+    const fork = require('child_process').fork;
+    const program = fork('./background');
+    return new Promise(function(resolve, reject) {
+        program.on('message', function(msg) {
+            if (msg.type === 'error') {
+                program.kill();
+                reject(msg.error);
+            } else {
+                program.kill();
+                resolve(msg.output);
+            }
+        });
+        program.send(options);
+    });
+}
 
 const getLocation = async function(ip) {
     try {
@@ -103,7 +104,7 @@ exports.autocrop = functions
             return;
         }
         try {
-            const output = await (Promise.resolve(autoCropSvg(svg , {title: req.body.title})).timeout(20 * 1000, 'Failed to autocrop within 20 seconds'));
+            const output = await (Promise.resolve(runInProcess({svg: svg, title: req.body.title})).timeout(20 * 1000, 'Failed to autocrop within 20 seconds'));
             const getLength = (s) => Buffer.byteLength(s, 'utf8');
             const originalSize = getLength(svg);
             const transformedSize = getLength(output.result);
