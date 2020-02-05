@@ -8,7 +8,7 @@ const options = {
 };
 
 // this allows us to run an svg autocrop in a separate process so we are not
-// blocked by long time SVGO transformations and can return a timeout exactly at 60s
+// blocked by long time SVGO transformations and can return a timeout exactly at 20s
 function runInProcess(options) {
     const fork = require('child_process').fork;
     const program = fork('./background');
@@ -100,7 +100,7 @@ exports.autocrop = functions
             return;
         }
         try {
-            const output = await (Promise.resolve(runInProcess({svg: svg, title: req.body.title})).timeout(60 * 1000, 'Failed to autocrop within 60 seconds'));
+            const output = await (Promise.resolve(runInProcess({svg: svg, title: req.body.title})).timeout(20 * 1000, 'Failed to autocrop within 20 seconds'));
             const getLength = (s) => Buffer.byteLength(s, 'utf8');
             const originalSize = getLength(svg);
             const transformedSize = getLength(output.result);
