@@ -106,6 +106,7 @@ exports.autocrop = functions
             const transformedSize = getLength(output.result);
             await reportToSlack({ip, success: true});
             res.json({success: true, result: output.result, skipRiskyTransformations: output.skipRiskyTransformations, stats: { originalSize, transformedSize }});
+            console.info('success', transformedSize);
         } catch (ex) {
             console.info('failed', ex);
             await reportToSlack({ip, success: false, error: ex.message || ex});
