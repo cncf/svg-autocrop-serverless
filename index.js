@@ -16,6 +16,7 @@ function runInProcess(options) {
         program.on('message', function(msg) {
             if (msg.type === 'error') {
                 program.kill();
+                console.info(msg);
                 reject(msg.error);
             } else {
                 program.kill();

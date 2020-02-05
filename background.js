@@ -24,7 +24,7 @@ process.on('message', async function(msg) {
         process.send({type: 'done', output: output });
     } catch(ex) {
         console.info(ex);
-        process.send({type: 'error', message: ex.message});
+        process.send({type: 'error', error: ex.message || ex});
     }
 });
 
