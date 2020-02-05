@@ -19,6 +19,7 @@ function runInProcess(options) {
                 console.info(msg);
                 reject(msg.error);
             } else {
+                console.info(msg);
                 program.kill();
                 resolve(msg.output);
             }
@@ -29,9 +30,7 @@ function runInProcess(options) {
 
 const getLocation = async function(ip) {
     try {
-        console.info(ip);
         const location = JSON.parse(await rp(`https://ipinfo.io/${ip}`));
-        console.info(location);
         return `${location.country} / ${location.region} / ${location.city}`;
     } catch (ex) {
         return `Unknown location`;
@@ -40,7 +39,6 @@ const getLocation = async function(ip) {
 
 const reportToSlack = async function({ip, success, error}) {
     const location = await getLocation(ip);
-    console.info({location});
     const slackChannel = process.env.SLACK_CHANNEL;
     if (!slackChannel) {
         return
@@ -64,14 +62,11 @@ const reportToSlack = async function({ip, success, error}) {
 exports.autocrop = functions
   .runWith(options)
     .https.onRequest(async function(req, res) {
-        console.info(req.headers);
         console.info('real: ', (req.headers['x-forwarded-for'] || '').split(', ')[0]);
         var ip = (req.headers['x-forwarded-for'] || '').split(', ')[0] ||
          req.connection.remoteAddress ||
          req.socket.remoteAddress ||
          req.connection.socket.remoteAddress
-        console.info(ip);
-
         if (req.method === 'GET') {
             res.end(require('fs').readFileSync('index.html', 'utf-8'));
             return;
@@ -112,6 +107,7 @@ exports.autocrop = functions
             await reportToSlack({ip, success: true});
             res.json({success: true, result: output.result, skipRiskyTransformations: output.skipRiskyTransformations, stats: { originalSize, transformedSize }});
         } catch (ex) {
+            console.info('failed', ex);
             await reportToSlack({ip, success: false, error: ex.message || ex});
             res.json({success: false, error: `svg autocrop failed: ${ex.message || ex}`});
             return;
