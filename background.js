@@ -1,4 +1,4 @@
-const puppeteer = require('svg-autocrop/node_modules/convert-svg-core/node_modules/puppeteer');
+const puppeteer = require('svg-autocrop/node_modules/puppeteer');
 const l = puppeteer.launch;
 puppeteer.launch = async function() {
     if (process.env.LOCAL) {
