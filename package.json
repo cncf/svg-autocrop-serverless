@@ -24,6 +24,7 @@
     "firebase-admin": "^8.12.1",
     "firebase-functions": "^3.7.0",
     "iltorb": "^2.4.5",
+    "puppeteer-core": "^3.3.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
     "svg-autocrop": "^2.0.17"
