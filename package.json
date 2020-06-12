@@ -20,12 +20,12 @@
   "dependencies": {
     "@google-cloud/functions-framework": "^1.5.1",
     "bluebird": "^3.7.2",
-    "chrome-aws-lambda": "^3.0.4",
+    "chrome-aws-lambda": "^3.1.1",
     "firebase-admin": "^8.12.1",
-    "firebase-functions": "^3.6.2",
+    "firebase-functions": "^3.7.0",
     "iltorb": "^2.4.5",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
-    "svg-autocrop": "^2.0.15"
+    "svg-autocrop": "^2.0.17"
   }
 }
