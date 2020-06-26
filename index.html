@@ -114,12 +114,16 @@
     padding: 5px 0px;
   }
 
+  #captionWidth { width: 50px }
+
     </style>
 </head>
 <h1>SVG Autocrop</h1>
 <a style="font-size: 12px; "href="#description">See description and api usage below</a>
 <div id="title-wrapper"><label> Step 1: Optionally choose a title</label><input id="title"></input></div>
-<div><span> Step 2: Drag and Drop file below or </span><input type="file" accept="image/svg+xml" id="upload"></input> or <input id="url" type="button" value="Enter URL" /><br/>
+    <div><span> Step 2: Optionally provide a <input id="caption" placeholder="label"></input> and a label width in % (from 10 to 100) <input id="captionWidth" type="number" min="10" max="100" value="80"></input></span></div>
+<div style="height: 5px;"></div>
+<div><span> Step 3: Drag and Drop file below or </span><input type="file" accept="image/svg+xml" id="upload"></input> or <input id="url" type="button" value="Enter URL" /><br/>
 <br/>
 <div id="info">
   <div id="input"><h4>Original file</h4><span></span><img /></div>
@@ -226,6 +230,8 @@
   const progress = document.querySelector('#progress');
   const error = document.querySelector('#error');
   const selectUrl = document.querySelector('#url');
+  const caption = document.querySelector('#caption');
+  const captionWidth = document.querySelector('#captionWidth');
 
 
 
@@ -243,7 +249,9 @@
         },
         body: JSON.stringify({
           svg: textFromFileLoaded,
-          title: title.value
+          title: title.value,
+          caption: caption.value,
+          captionWidth: captionWidth.value
         })
       }).then(function(response) {
         return response.json();
@@ -292,9 +300,39 @@
     error.style.display = 'none';
   }
 
+  // trigger an upload event after one second passes since any change in the text fields
+  // new change resets the timer
+  let lastTimeChanged = 0;
+  let lastOptions = null;
+  let lastTriggeredOptions = null;
+  function optionsChanged() {
+      const now = new Date().getTime();
+      const currentOptions = JSON.stringify({
+          title: title.value,
+          caption: caption.value,
+          captionWidth: captionWidth.value
+      });
+      if (currentOptions !== lastOptions) {
+          lastTimeChanged = now;
+          lastOptions = currentOptions;
+      }
+      if (now > lastTimeChanged  + 1000 && currentOptions !== lastTriggeredOptions) {
+          lastTriggeredOptions = currentOptions;
+          console.info('Triggering a change');
+          uploadChanged();
+      }
+  }
+  setInterval(optionsChanged, 500);
+
   upload.addEventListener('change', function() {
     uploadChanged();
   }, false);
+
+
+
+
+
+
 
   selectUrl.addEventListener('click', function() {
     const url = prompt('Please specify the svg url');
@@ -308,7 +346,10 @@
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        url: url
+        url: url,
+        title: title.value,
+        caption: caption.value,
+        captionWidth: captionWidth.value
       })
     }).then(function(response) {
       return response.json();

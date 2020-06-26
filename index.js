@@ -100,7 +100,7 @@ exports.autocrop = functions
             return;
         }
         try {
-            const output = await (Promise.resolve(runInProcess({svg: svg, title: req.body.title})).timeout(20 * 1000, 'Failed to autocrop within 20 seconds'));
+            const output = await (Promise.resolve(runInProcess({svg: svg, title: req.body.title, caption: req.body.caption, captionWidth: +req.body.captionWidth / 100})).timeout(20 * 1000, 'Failed to autocrop within 20 seconds'));
             const getLength = (s) => Buffer.byteLength(s, 'utf8');
             const originalSize = getLength(svg);
             const transformedSize = getLength(output.result);
