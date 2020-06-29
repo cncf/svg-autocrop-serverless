@@ -27,6 +27,6 @@
     "puppeteer-core": "^3.3.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
-    "svg-autocrop": "^2.0.23"
+    "svg-autocrop": "^2.0.24"
   }
 }
