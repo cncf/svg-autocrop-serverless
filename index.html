@@ -368,7 +368,7 @@
     const a = document.createElement('a');
     a.style.display = 'none';
     a.href = outputImg.src;
-    a.download = upload.files[0].name;
+    a.download = (upload.files[0] || {name: 'logo.svg'}).name;
     document.body.appendChild(a);
     a.click();
   }, false);
