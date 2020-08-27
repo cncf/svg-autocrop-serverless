@@ -18,16 +18,16 @@
   "author": "CNCF",
   "license": "MIT",
   "dependencies": {
-    "@google-cloud/functions-framework": "^1.5.1",
+    "@google-cloud/functions-framework": "^1.7.1",
     "bluebird": "^3.7.2",
-    "chrome-aws-lambda": "^3.1.1",
-    "firebase-admin": "^8.12.1",
-    "firebase-functions": "^3.7.0",
+    "chrome-aws-lambda": "^5.2.1",
+    "firebase-admin": "^9.1.1",
+    "firebase-functions": "^3.11.0",
     "iltorb": "^2.4.5",
-    "lodash": "^4.17.19",
-    "puppeteer-core": "^3.3.0",
+    "lodash": "^4.17.20",
+    "puppeteer-core": "^5.2.1",
     "request": "^2.88.2",
-    "request-promise": "^4.2.5",
-    "svg-autocrop": "^2.0.24"
+    "request-promise": "^4.2.6",
+    "svg-autocrop": "^2.0.35"
   }
 }
