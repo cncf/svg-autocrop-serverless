@@ -7,4 +7,4 @@ $g functions deploy $DEPLOY_NAME  \
     --region=us-central1 \
     --trigger-http \
     --runtime nodejs16 \
-    --memory 2048MB \
+    --memory 4096MB \

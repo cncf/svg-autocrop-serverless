@@ -1,23 +1,4 @@
-const puppeteer = require('svg-autocrop/node_modules/puppeteer');
-const l = puppeteer.launch;
-puppeteer.launch = async function() {
-    if (process.env.LOCAL) {
-        console.info('Running a normal puppeteer');
-        return await l.apply(this, arguments);
-    } else {
-        console.info('Running a special version of puppeteer with chrome adapted to /tmp');
-        const chromium = require('chrome-aws-lambda');
-        const browser = await chromium.puppeteer.launch({
-            args: chromium.args,
-            defaultViewport: chromium.defaultViewport,
-            executablePath: await chromium.executablePath,
-            headless: chromium.headless,
-        });
-        return browser;
-    }
-}
 const autoCropSvg = require('svg-autocrop');
-
 process.on('message', async function(msg) {
     try {
         console.info(msg.svg, msg.title, msg.caption, msg.captionWidth);
