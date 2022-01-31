@@ -2,9 +2,10 @@ set -e
 echo DEPLOYING STATIC PAGE
 
 mkdir -p dist/
-cp _redirects index.html dist/
+cp _redirects index.html bg.jpeg dist/
 curl https://landscape.cncf.io/favicon.ico > dist/favicon.ico
 
+exit 0
 echo INSTALLING GOOGLE CLOUD CLI
 
 echo $BASE64GOOGLETOKEN | base64 -d > /tmp/key.json

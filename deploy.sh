@@ -6,5 +6,5 @@ $g functions deploy $DEPLOY_NAME  \
     --entry-point autocrop \
     --region=us-central1 \
     --trigger-http \
-    --runtime nodejs12 \
+    --runtime nodejs16 \
     --memory 2048MB \

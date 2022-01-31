@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A serverless api for an svg-autocrop module",
   "main": "index.js",
+  "engines": {
+    "node": "16.x.x"
+  },
   "scripts": {
     "test": "node test",
     "start": "LOCAL=1 functions-framework --target=autocrop"
@@ -18,7 +21,7 @@
   "author": "CNCF",
   "license": "MIT",
   "dependencies": {
-    "@google-cloud/functions-framework": "^1.7.1",
+    "@google-cloud/functions-framework": "^2.1.0",
     "bluebird": "^3.7.2",
     "chrome-aws-lambda": "^5.3.1",
     "firebase-admin": "^9.3.0",
