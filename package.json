@@ -29,6 +29,6 @@
     "lodash": "^4.17.20",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
-    "svg-autocrop": "^2.0.36"
+    "svg-autocrop": "^2.0.41"
   }
 }
